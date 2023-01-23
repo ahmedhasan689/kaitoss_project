@@ -87,7 +87,7 @@
             </div>
 
             <div class="menu-item">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="{{ route('service.index') }}">
                     <span class="menu-icon">
                        <i class="fas fa-tools fs-3"></i>
                     </span>

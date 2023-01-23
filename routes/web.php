@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\AboutUsController;
 use App\Http\Controllers\Dashboard\MainSectionController;
+use App\Http\Controllers\Dashboard\ServicesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +58,26 @@ Route::prefix('/admin')
                 Route::delete('/{id}', 'destroy')->name('delete');
             });
         // End About Us Routes
+
+        // Start Services Routes
+        Route::controller(ServicesController::class)
+            ->prefix('services')
+            ->as('service.')
+            ->group(function() {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{id}/edit', 'edit')->name('edit');
+                Route::put('/{id}', 'update')->name('update');
+                Route::get('/delete', 'destroy')->name('delete');
+
+                /**
+                 * ? This Function To Update status
+                 */
+                Route::get('/change-status', 'changeStatus')->name('changeStatus');
+
+            });
+        // End Services Routes
 
 
     });
