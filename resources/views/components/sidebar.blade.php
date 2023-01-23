@@ -65,7 +65,7 @@
             </div>
 
             <div class="menu-item">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="{{ route('main_section.index') }}">
                     <span class="menu-icon">
                         <i class="fas fa-home fs-3"></i>
                     </span>
