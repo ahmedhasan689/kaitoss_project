@@ -76,7 +76,7 @@
             </div>
 
             <div class="menu-item">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="{{ route('about_us.index') }}">
                     <span class="menu-icon">
                         <i class="fas fa-address-card fs-3"></i>
                     </span>

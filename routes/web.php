@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AboutUsController;
 use App\Http\Controllers\Dashboard\MainSectionController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,20 @@ Route::prefix('/admin')
                 Route::delete('/{id}', 'destroy')->name('delete');
             });
         // End Main Section Routes
+
+        // Start About Us Routes
+        Route::controller(AboutUsController::class)
+            ->prefix('about_us')
+            ->as('about_us.')
+            ->group(function() {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{id}/edit', 'edit')->name('edit');
+                Route::put('/{id}', 'update')->name('update');
+                Route::delete('/{id}', 'destroy')->name('delete');
+            });
+        // End About Us Routes
 
 
     });
