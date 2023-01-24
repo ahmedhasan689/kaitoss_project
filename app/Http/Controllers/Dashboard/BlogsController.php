@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Service;
+use App\Models\Blog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class ServicesController extends Controller
+class BlogsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,13 +18,13 @@ class ServicesController extends Controller
      */
     public function index(Request $request)
     {
-        $services = Service::all();
+        $blogs = Blog::all();
 
         if( $request->ajax() ) {
-            return view('dashboard.services.table-data', compact('services'))->render();
+            return view('dashboard.blogs.table-data', compact('blogs'))->render();
         }
 
-        return view('dashboard.services.index', compact('services'));
+        return view('dashboard.blogs.index', compact('blogs'));
     }
 
     /**
@@ -35,14 +34,14 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        return view('dashboard.services.create');
+        return view('dashboard.blogs.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -51,21 +50,21 @@ class ServicesController extends Controller
             [
                 'title' => 'required',
                 'description' => 'required|max:150',
-                'icon' => 'required|mimes:jpg,png,jpeg',
+                'cover_image' => 'required|mimes:jpg,png,jpeg',
             ]
         );
 
         $data = $request->all();
 
         // Upload Image
-        if( $request->hasFile('icon') ) {
-            $file = $request->file('icon'); // Give Me The File
+        if( $request->hasFile('cover_image') ) {
+            $file = $request->file('cover_image'); // Give Me The File
 
             $image_path = $file->store('/uploads', [
                 'disk' => 'public', // You Can Check It In config/filesystem.php
             ]);
 
-            $data['icon'] = $image_path;
+            $data['cover_image'] = $image_path;
         }
 
         if( isset($data['status']) ) {
@@ -74,12 +73,12 @@ class ServicesController extends Controller
             $data['status'] = 0;
         }
 
-        Service::create($data);
+        Blog::create($data);
 
         // I can use session instead of this toastr, but It is better for appearance
-        toastr()->success('Service Created Successfully');
+        toastr()->success('Blog Created Successfully');
 
-        return redirect()->route('service.index');
+        return redirect()->route('blog.index');
     }
 
     /**
@@ -101,9 +100,9 @@ class ServicesController extends Controller
      */
     public function edit($id)
     {
-        $service = Service::find($id);
+        $blog = Blog::find($id);
 
-        return view('dashboard.services.edit', compact('service'));
+        return view('dashboard.blogs.edit', compact('blog'));
     }
 
     /**
@@ -111,36 +110,36 @@ class ServicesController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        $service = Service::find($id);
+        $blog = Blog::find($id);
 
         // Validation
         $request->validate(
             [
                 'title' => 'required',
                 'description' => 'required|max:150',
-                'icon' => 'nullable|mimes:jpg,png,jpeg',
+                'cover_image' => 'nullable|mimes:jpg,png,jpeg',
             ]
         );
 
         $data = $request->all();
 
         $image_path = null;
-        if( !empty($data['icon']) ) {
-            if( $request->hasFile('icon') ) {
-                $file = $request->file('icon'); // Give Me The File
+        if( !empty($data['cover_image']) ) {
+            if( $request->hasFile('cover_image') ) {
+                $file = $request->file('cover_image'); // Give Me The File
 
                 $image_path = $file->store('/uploads', [
                     'disk' => 'public', // You Can Check It In config/filesystem.php
                 ]);
 
-                $data['icon'] = $image_path;
+                $data['cover_image'] = $image_path;
             }
         }else{
-            $data = $request->except('icon');
+            $data = $request->except('cover_image');
         }
 
         if( isset($data['status']) ) {
@@ -149,40 +148,38 @@ class ServicesController extends Controller
             $data['status'] = 0;
         }
 
-        $service->update($data);
+        $blog->update($data);
 
         // I can use session instead of this toastr, but It is better for appearance
-        toastr()->success('Service Updated Successfully');
+        toastr()->success('Blog Updated Successfully');
 
-        return redirect()->route('service.index');
+        return redirect()->route('blog.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request)
     {
-        $service = Service::find($request->id)->delete();
-
-        return redirect()->route('service.index');
+        $blog = Blog::find($request->id)->delete();
     }
 
     /**
      * @param Request $request
      * @return void
-     * ? Change Status Of Service ( Ajax Request )
+     * ? Change Status Of Blog ( Ajax Request )
      */
     public function changeStatus(Request $request)
     {
-        $service = Service::find($request->id);
+        $blog = Blog::find($request->id);
 
-        if ( $service->status == 0 ){
-            $service->update(['status' => 1]);
-        }else{
-            $service->update(['status' => 0]);
+        if ($blog->status == 0) {
+            $blog->update(['status' => 1]);
+        } else {
+            $blog->update(['status' => 0]);
         }
     }
 }

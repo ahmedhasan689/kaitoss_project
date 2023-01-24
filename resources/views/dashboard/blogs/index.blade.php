@@ -5,8 +5,8 @@
           type="text/css"/>
 @endsection
 
-@section('main_title', 'Services')
-@section('header_title', 'Services')
+@section('main_title', 'Blogs')
+@section('header_title', 'Blogs')
 @section('subheader_title', 'Index')
 
 @section('content')
@@ -16,10 +16,10 @@
             <!--begin::Title-->
             <h3 class="card-title align-items-start flex-column">
                 <span class="card-label fw-bolder fs-3 mb-1">
-                    {{ 'Services' }}
+                    {{ 'Blogs' }}
                 </span>
                 <span class="text-muted fw-bold fs-7">
-                    {{ 'There Is'}} {{ $services ? $services->count() : '0' }} {{ 'Services' }}
+                    {{ 'There Is'}} {{ $blogs ? $blogs->count() : '0' }} {{ 'Blog' }}
                 </span>
             </h3>
             <!--end::Title-->
@@ -27,11 +27,11 @@
             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                  title="Click To Add New Service" disabled>
 
-                <a href="{{ route('service.create') }}" class="btn btn-sm btn-light-primary">
+                <a href="{{ route('blog.create') }}" class="btn btn-sm btn-light-primary">
                     <span class="svg-icon svg-icon-3">
                         <i class="fas fa-plus-square fs-3"></i>
                     </span>
-                    Create Services
+                    Create Blog
                 </a>
             </div>
         </div>
@@ -41,7 +41,7 @@
         <div class="card-body py-3">
             <!--begin::Table container-->
             <div class="table-responsive" id="table-data">
-                @include('dashboard.services.table-data')
+                @include('dashboard.blogs.table-data')
             </div>
             <!--end::Body-->
         </div>
@@ -49,6 +49,10 @@
 @endsection
 
 @section('js')
+    <!--begin::Global Javascript Bundle(used by all pages)-->
+    <script src="{{ asset('dashboard/assets/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('dashboard/assets/js/scripts.bundle.js') }}"></script>
+    <!--end::Global Javascript Bundle-->
     <script src="{{ asset('dashboard/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 
     <script>
@@ -59,7 +63,7 @@
             var id = $(this).data('id');
 
             $.ajax({
-                url: "{{ route('service.changeStatus') }}",
+                url: "{{ route('blog.changeStatus') }}",
                 type: "GET",
                 data: {
                     id: id,
@@ -77,10 +81,10 @@
                     });
 
                     $.ajax({
-                        url: "{{ route('service.index') }}",
+                        url: "{{ route('blog.index') }}",
                     }).done(function (data) {
                         $("#table-data").html(data);
-                        $("#services").DataTable();
+                        $("#blogs").DataTable();
                     });
                 },
                 error: function(data) {
@@ -102,13 +106,13 @@
             });
 
             $.ajax({
-                url: "{{ route('service.delete') }}",
+                url: "{{ route('blog.delete') }}",
                 type: "GET",
                 data: {
                     id: id
                 },
                 success: function(data) {
-                    // $('#delete-'+id).modal('hide');
+
 
                     Swal.fire({
                         title: 'Success',
@@ -122,11 +126,11 @@
                     });
 
                     $.ajax({
-                        url: "{{ route('service.index') }}",
+                        url: "{{ route('blog.index') }}",
                         type: 'GET',
                     }).done(function (data) {
                         $("#table-data").html(data);
-                        $("#services").DataTable();
+                        $("#blogs").DataTable();
                     });
 
                     $('.modal-backdrop').remove();

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\AboutUsController;
+use App\Http\Controllers\Dashboard\BlogsController;
 use App\Http\Controllers\Dashboard\MainSectionController;
 use App\Http\Controllers\Dashboard\ServicesController;
 use Illuminate\Support\Facades\Route;
@@ -78,6 +79,26 @@ Route::prefix('/admin')
 
             });
         // End Services Routes
+
+        // Start Blogs Routes
+        Route::controller(BlogsController::class)
+            ->prefix('blogs')
+            ->as('blog.')
+            ->group(function() {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{id}/edit', 'edit')->name('edit');
+                Route::put('/{id}', 'update')->name('update');
+                Route::get('/delete', 'destroy')->name('delete');
+
+                /**
+                 * ? This Function To Update status
+                 */
+                Route::get('/change-status', 'changeStatus')->name('changeStatus');
+
+            });
+        // End Blogs Routes
 
 
     });
