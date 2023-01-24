@@ -109,7 +109,7 @@
             </div>
 
             <div class="menu-item">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="{{ route('contact-us.fetch') }}">
                     <span class="menu-icon">
                        <i class="fas fa-envelope fs-3"></i>
                     </span>

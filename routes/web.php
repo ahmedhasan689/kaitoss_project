@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Dashboard\AboutUsController;
 use App\Http\Controllers\Dashboard\BlogsController;
+use App\Http\Controllers\Dashboard\ContactUsController;
 use App\Http\Controllers\Dashboard\MainSectionController;
 use App\Http\Controllers\Dashboard\ServicesController;
+use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+// Home Page ( Web )
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/admin/dashboard', function () {
     return view('dashboard.index');
 })->middleware(['auth']);
 
@@ -99,6 +104,24 @@ Route::prefix('/admin')
 
             });
         // End Blogs Routes
+
+        // Start Contact Us Routes
+        Route::controller(ContactUsController::class)
+            ->prefix('contact-us')
+            ->as('contact-us.')
+            ->group(function() {
+                Route::post('/store', 'store')->name('store')->withoutMiddleware(['auth']);
+                Route::get('/delete', 'destroy')->name('delete');
+
+                /**
+                 * ? This Function To Fetch Data Into Dashboard
+                 */
+                Route::get('/', 'fetch')->name('fetch');
+
+            });
+        // End Contact Us  Routes
+
+
 
 
     });
