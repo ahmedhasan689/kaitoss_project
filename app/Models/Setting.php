@@ -34,10 +34,10 @@ class Setting extends Model
     /**
      * ? To Casting ( From - To ) As Time
      */
-    protected $casts = [
-        'work_from' => 'time',
-        'work_to' => 'time',
-    ];
+//    protected $casts = [
+//        'work_from' => 'time',
+//        'work_to' => 'time',
+//    ];
 
     /**
      * @param $value

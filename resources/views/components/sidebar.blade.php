@@ -32,12 +32,12 @@
 
             <div class="menu-item">
                 <div class="menu-content pt-8 pb-2">
-                    <span class="menu-section text-muted text-uppercase fs-8 ls-1">Admins & Roles</span>
+                    <span class="menu-section text-muted text-uppercase fs-8 ls-1">Admins</span>
                 </div>
             </div>
 
             <div class="menu-item">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="{{ route('admin.index') }}">
                     <span class="menu-icon">
                         <i class="fas fa-user-lock fs-3"></i>
                     </span>
@@ -120,7 +120,19 @@
             </div>
 
             <div class="menu-item">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="{{ route('tab.index') }}">
+                    <span class="menu-icon">
+                        <i class="fas fa-outdent fs-3"></i>
+                    </span>
+                    <span class="menu-title">
+                        Tabs
+                    </span>
+                </a>
+            </div>
+
+
+            <div class="menu-item">
+                <a class="menu-link" href="{{ route('setting.edit') }}">
                     <span class="menu-icon">
                        <i class="fas fa-cog fs-3"></i>
                     </span>

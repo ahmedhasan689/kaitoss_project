@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\Dashboard\AboutUsController;
+use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\BlogsController;
 use App\Http\Controllers\Dashboard\ContactUsController;
 use App\Http\Controllers\Dashboard\MainSectionController;
+use App\Http\Controllers\Dashboard\SendEmailsController;
 use App\Http\Controllers\Dashboard\ServicesController;
+use App\Http\Controllers\Dashboard\SettingsController;
+use App\Http\Controllers\Dashboard\TabsController;
 use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -121,7 +125,39 @@ Route::prefix('/admin')
             });
         // End Contact Us  Routes
 
+        // Start Tabs Routes
+        Route::controller(TabsController::class)
+            ->prefix('tabs')
+            ->as('tab.')
+            ->group(function() {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{id}/edit', 'edit')->name('edit');
+                Route::put('/{id}', 'update')->name('update');
+                Route::get('/delete', 'destroy')->name('delete');
+            });
+        // End Tabs Routes
 
+        // Start Settings Routes
+        Route::controller(SettingsController::class)
+            ->prefix('settings')
+            ->as('setting.')
+            ->group(function() {
+                Route::get('/settings/edit', 'edit')->name('edit');
+                Route::put('/', 'update')->name('update');
+            });
+        // End Settings Routes
+
+        // Start Settings Routes
+        Route::controller(AdminController::class)
+            ->prefix('admins')
+            ->as('admin.')
+            ->group(function() {
+                Route::get('/', 'index')->name('index');
+                Route::get('/send-email', 'send')->name('send-emails');
+            });
+        // End Settings Routes
 
 
     });

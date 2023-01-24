@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('service_description');
             $table->time('work_from');
             $table->time('work_to');
-            $table->time('work_icon');
+            $table->string('work_icon');
             $table->string('blog_title');
             $table->string('blog_description');
             $table->string('contact_us_title');
